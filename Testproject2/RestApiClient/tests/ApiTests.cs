@@ -26,9 +26,10 @@ namespace RestApiClient.Tests
                 Assert.That(postsResponse.Data, Is.Ordered.Ascending.By(nameof(Post.Id)), "Сообщения должны быть отсортированы по ID.");
             });
             _logger.LogInformation("Проверка списка пользователей завершена успешно.");
-           
-            _logger.LogInformation("Запрос конкретного пользователя с ID {Id}.", TestData.SpecificPostId);
-            var specificPostResponse = await ApiUtils.GetAsync<Post>($"{ConfigData.Endpoints.Posts}/{TestData.SpecificPostId}");
+
+            var specificPostId = Environment.GetEnvironmentVariable("SPECIFIC_POST_ID");
+            _logger.LogInformation("Запрос конкретного пользователя с ID {Id}.", specificPostId);
+            var specificPostResponse = await ApiUtils.GetAsync<Post>($"{ConfigData.Endpoints.Posts}/{specificPostId}");
             _logger.LogInformation("Получен пользователь с ID: {Id}.", specificPostResponse.Data?.Id);
             Assert.Multiple(() =>
             {
